@@ -30,8 +30,7 @@
       quantity, checked, create_time, 
       update_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
-      #{quantity,jdbcType=INTEGER}, #{checked,jdbcType=INTEGER}, now(),
-      now())
+      #{quantity,jdbcType=INTEGER}, #{checked,jdbcType=INTEGER}, now(),now())
   </insert>
   <insert id="insertSelective" parameterType="com.mall.pojo.Cart" >
     insert into mmall_cart
@@ -116,4 +115,46 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectCartByUserIdproductId" resultMap="BaseResultMap" parameterType="map">
+    SELECT <include refid="Base_Column_List"/>
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+    and product_id = #{productId}
+  </select>
+  <select id="selectCartByUserId" resultMap="BaseResultMap" parameterType="int">
+    SELECT <include refid="Base_Column_List"/>
+    from mmall_cart
+    WHERE user_id = #{userId}
+  </select>
+  <select id="isAllChecked" resultType="int" parameterType="int">
+    SELECT count(1) from mmall_cart
+    WHERE checked = 0 and user_id = #{userId}
+  </select>
+  <delete id="deleteProductFromCart" parameterType="map">
+    DELETE from mmall_cart
+    WHERE user_id = #{userId}
+    <if test="productIdList != null">
+      and product_id in
+      <foreach collection="productIdList" index="index" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+  <update id="selectOrUnSelectChecked" parameterType="map">
+    UPDATE mmall_cart SET checked = #{checked}
+    ,update_time =now() where user_id = #{userId}
+    <if test="productId != null">
+      and product_id = #{productId}
+    </if>
+  </update>
+  <select id="getCartProductCount" resultType="int" parameterType="int">
+    SELECT nullif(sum(quantity),0) as COUNT from mmall_cart
+    WHERE user_id = #{userId}
+  </select>
+  <select id="selectCheckedCartByUserId" parameterType="int" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM mmall_cart
+    WHERE user_id = #{userId}
+    and checked = 1
+  </select>
 </mapper>

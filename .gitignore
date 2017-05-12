@@ -17,7 +17,7 @@ target/
 *.ipr
 *.iws
 
-*.log
+*.logger
 *.cache
 *.patch
 *.tmp

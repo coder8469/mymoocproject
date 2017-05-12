@@ -9,12 +9,12 @@
             <level>DEBUG</level>
         </filter>
     </appender>
-
+    <!--  配置项目日志，根据时间rolling 最大保存存10天 -->
     <appender name="mall" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--<File>d:/mmalllog/mmall.log</File>-->
-        <File>/developer/apache-tomcat-7.0.73/logs/mall.log</File>
+        <File>d:/mmalllog/mmall.log</File>
+        <!--<File>/developer/apache-tomcat-7.0.73/logs/mall.log</File>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/developer/apache-tomcat-7.0.73/logs/mmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>E:/apache-tomcat-7.0.68/logs/mmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory><!-- 存10天 -->
         </rollingPolicy>
@@ -23,12 +23,18 @@
         </encoder>
     </appender>
 
+    <!--<appender class="ch.qos.logback.classic.AsyncAppender">-->
+        <!--<appender-ref ref="mall" />-->
+        <!--<appender-ref ref="console"/>-->
+        <!--&lt;!&ndash; add the following line &ndash;&gt;-->
+        <!--<includeCallerData>true</includeCallerData>-->
+    <!--</appender>-->
 
-    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--<File>d:/mmalllog/error.log</File>-->
-        <File>/developer/apache-tomcat-7.0.73/logs/error.log</File>
+<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>d:/mmalllog/error.log</File>
+        <!--<File>/developer/apache-tomcat-7.0.73/logs/error.log</File>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/devsoft/apache-tomcat-7.0.73/logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>E:/apache-tomcat-7.0.68/logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <!--<fileNamePattern>d:/mmalllog/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
             <append>true</append>
             <maxHistory>10</maxHistory>
@@ -44,13 +50,13 @@
     </appender>
 
     <logger name="com.mall" additivity="false" level="INFO" >
-        <appender-ref ref="mmall" />
+        <appender-ref ref="mall" />
         <appender-ref ref="console"/>
     </logger>
 
 
 
-    <!-- geelynote mybatis log 日志 -->
+    <!--  mybatis log 日志 level="DEBUG" 打印出SQL的执行语句-->
 
     <logger name="com.mall.dao" level="DEBUG"/>
 
